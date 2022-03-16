@@ -1,0 +1,101 @@
+<div class="page-holder" [ng2-loading]="isLoading">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Buyer Manager</h2>
+        </div>
+    
+        <div class="col-md-6 text-right">
+        </div>
+      </div>
+
+      <div class="header-action-bar">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="filter-btns-holder">
+              <div class="filter-label">
+                User Status:
+              </div>
+              <div class="filter-btn" (click)="filterUserist('all')" [ngClass]="{'selected': selectedFilter === 'all'}">
+                All
+              </div>
+              <div class="filter-btn" (click)="filterUserist('emailVerified')" [ngClass]="{'selected': selectedFilter === 'emailVerified'}">
+                Email Verified
+              </div>
+              <div class="filter-btn" (click)="filterUserist('emailNotVerified')" [ngClass]="{'selected': selectedFilter === 'emailNotVerified'}">
+                Email Not Verified
+              </div>
+              <div class="filter-btn" (click)="filterUserist('Active')" [ngClass]="{'selected': selectedFilter === 'Active'}">
+                Active
+              </div>
+              <div class="filter-btn" (click)="filterUserist('Inactive')" [ngClass]="{'selected': selectedFilter === 'Inactive'}">
+                Inactive
+              </div>
+              <div class="filter-btn" (click)="filterUserist('Deleted')" [ngClass]="{'selected': selectedFilter === 'Deleted'}">
+                Deleted
+              </div>                         
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+  </div>
+
+  <div class="page-content">
+    <table class="table table-ivys" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Buyer ID</th>
+        <th scope="col">Company</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Created Date</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let buyer of buyerList">
+          <th scope="row"></th>
+          <td>{{buyer.gen_p_user_id}}</td>
+          <td>{{buyer.company_name}}</td>
+          <td>{{buyer.gen_p_full_name}}</td>
+          <td>{{buyer.gen_p_email}}</td>
+          <td>
+            {{buyer.created_date | date: 'M/d/yy'}} <br> <small>{{buyer.created_date | date: 'h:mm a'}}</small>
+          </td>
+          <td>          
+            <span class="badge badge-warning mr-1" *ngIf="buyer.verified === 1 && buyer.gen_p_ivys_admin_aproval !== 'Deleted' && buyer.gen_p_ivys_admin_aproval === 'Inactive'">
+              Inactive
+            </span>
+            <span class="badge badge-success mr-1" *ngIf="buyer.verified === 1 && buyer.gen_p_ivys_admin_aproval === 'Active' && buyer.gen_p_ivys_admin_aproval !== 'Deleted'">
+              Active
+            </span>
+            <span class="badge badge-danger mr-1" *ngIf="buyer.gen_p_ivys_admin_aproval === 'Deleted'">
+              Deleted
+            </span>          
+            <span class="badge badge-warning mr-1" *ngIf="buyer.verified === 0 && buyer.gen_p_ivys_admin_aproval !== 'Deleted'">
+              Email Not Verified
+            </span>
+            <span class="badge badge-success mr-1" *ngIf="buyer.verified === 1 && buyer.gen_p_ivys_admin_aproval === 'Inactive' && buyer.gen_p_ivys_admin_aproval !== 'Deleted'">
+              Email Verified
+            </span>
+          </td>
+          <td>
+            <button type="button" tooltip="Deactivate User" class="btn btn-light btn-sm text-danger" *ngIf="buyer.gen_p_ivys_admin_aproval === 'Active' && buyer.verified === 1 && buyer.gen_p_ivys_admin_aproval !== 'Deleted'" (click)="deactivateUser(buyer);">
+              <i class="fas fa-user-times"></i>
+            </button>
+            <button type="button" tooltip="Activate User" class="btn btn-light btn-sm text-success" *ngIf="buyer.gen_p_ivys_admin_aproval === 'Inactive' && buyer.verified === 1 && buyer.gen_p_ivys_admin_aproval !== 'Deleted'" (click)="activateUser(buyer);">
+              <i class="fas fa-user-check"></i>
+            </button>
+            <button type="button" tooltip="More Info" class="btn btn-light btn-sm ml-1" (click)="userMoreData(buyer);">
+              <i class="fas fa-info-circle"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

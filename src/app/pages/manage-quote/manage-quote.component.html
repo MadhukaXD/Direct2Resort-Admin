@@ -1,0 +1,209 @@
+<div class="page-holder" [ng2-loading]="isLoadingGetQuotes || isLoadingGetQuotesInstance || isLoadingGetQuotesInstance || isLoadingMarkupPrices || isLoadingApproveQuote || isLoadingApproveBuyerMsg">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Manage Quotes > 
+            <span>{{quoteInfo.quote_id}} </span>
+            <span class="badge" [ngClass]="{'badge-warning':quoteInfo.final_client_aproval === 'Pending', 'badge-success':quoteInfo.final_client_aproval === 'Approved', 'badge-danger':quoteInfo.final_client_aproval === 'Rejected'}">
+              {{quoteInfo.final_client_aproval}}
+            </span>
+          </h2>
+        </div>
+    
+        <div class="col-md-6 text-right">
+          <button class="btn" type="button">
+            <i class="apicon-settings"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="header-action-bar">
+        <div class="row">
+          <div class="col-12">
+            <div class="header-quote-info-holder">
+              <div class="quote-info-item">
+                <small>Quotation ID</small>
+                <h2>{{quoteInfo.quote_id}}</h2>
+              </div>
+              <div class="quote-info-item">
+                <small>Client</small>
+                <h2>{{quoteInfo.gen_p_full_name}}</h2>
+              </div>
+              <div class="quote-info-item">
+                <small>Seller</small>
+                <h2>{{quoteInfo.company_name}}</h2>
+              </div>
+              <div class="quote-info-item">
+                <small>Created Date</small>
+                <h2>{{quoteInfo.created_date | date: 'M/d/yy hh:mm a'}}</h2>
+              </div>
+              <div class="quote-info-item">
+                <small>Lsat Update On</small>
+                <h2>{{quoteInfo.last_updated_date | date: 'M/d/yy hh:mm a'}}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+    </div>    
+  </div>
+
+  <div class="page-content">
+    <div class="quote-managment-panel">
+      <div class="qma-section">
+        <div class="qmas-header">
+          <h4>Buyer Quote Information</h4>
+          <button class="qmas-btn">Download as PDF</button>
+        </div>
+
+        <div class="qmas-body">
+          <div class="qmas-quote-product-item">   
+            <table>
+              <thead>
+                <td width="42px">Item</td>
+                <td></td>
+                <td>QTY</td>
+                <td>Unit Price</td>
+                <td>Amount</td>
+              </thead>
+              <tbody>
+                <td>
+                  <div class="qpi-img" [ngStyle]="{'background-image': 'url('+imgUploadPath+'/'+quoteProduct.product_single_img+')'}"></div>
+                </td>
+                <td>
+                  <h5 class="qpi-name">{{quoteProduct.product_name}}</h5>
+                </td>
+                <td>
+                  <h5 class="qpi-qty">
+                    {{quoteProduct.quantity}}
+                  </h5>
+                </td>
+                <td>
+                  <h5 class="qpi-qty">
+                    {{lastQuoteInstance?.seller_unit_price | currency}}
+                  </h5>
+                </td>
+                <td>
+                  <h5 class="qpi-qty">
+                    {{lastQuoteInstance?.seller_price | currency}}
+                  </h5>
+                </td>
+              </tbody>
+            </table>
+          </div>
+
+          <table class="markup-tbl">
+            <tbody>
+              <tr>
+                <td>Direct2Resort Fee 15%</td>
+                <td class="text-right">{{markupPrices?.Direct2resort | currency}}</td>
+              </tr>
+              <tr>
+                <td>Re-packing and handling 5%</td>
+                <td class="text-right">{{markupPrices?.Repacking | currency}}</td>
+              </tr>
+              <tr>
+                <td>Duty</td>
+                <td class="text-right">{{markupPrices?.Duty | currency}}</td>
+              </tr>
+              <tr>
+                <td><strong>Total</strong></td>
+                <td class="text-right"><strong>{{markupPrices?.total | currency}}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="qmas-footer">
+          <div class="alert alert-success" role="alert" *ngIf="quoteInfo.final_client_aproval === 'Approved'">
+            This quote is aprroved by the Client and ready to transfer to the Logistic partner
+          </div>
+          
+        </div>
+      </div>
+      <div class="qma-section">
+        <div class="qmas-header">
+          <h4>Quote History</h4>
+          <button class="qmas-btn">Download as PDF</button>
+        </div>
+        <div class="qmas-msg-list-holder">
+          <div *ngFor="let quoteMsg of quoteInstance">
+            <div class="qmas-msg-item client-msg">
+              <div class="qmas-msg-body" *ngIf="quoteMsg.buyer_msg">
+                <div class="msg-approved-icon" *ngIf="quoteMsg.quote_admin_status === 'Approved' || quoteMsg.quote_admin_status === 'To Buyer'">
+                  <i class="fas fa-check-circle"></i> Admin Approved
+                </div>
+                <h6 class="msg-date-time">{{quoteMsg.buyer_msg_time | date: 'medium'}} by Buyer</h6>
+                <h5>Comment</h5>
+                <p>{{quoteMsg.buyer_msg}}</p>
+                <div class="qmas-msg-footer text-right">
+                  <button type="button" class="btn btn-primary btn-sm" *ngIf="quoteMsg.quote_admin_status === 'To Seller'" (click)="approveBuyerMsg(quoteMsg)">Approve</button>
+                </div>                
+              </div>
+            </div>
+  
+            <div class="qmas-msg-item my-msg" *ngIf="quoteMsg.seller_msg">
+              <div class="qmas-msg-body">
+                <div class="msg-approved-icon" *ngIf="quoteMsg.quote_admin_status === 'Approved'">
+                  <i class="fas fa-check-circle"></i> Admin Approved
+                </div>
+                <h6 class="msg-date-time">{{quoteMsg.seller_msg_time | date: 'medium'}} by Seller</h6>                
+                <div class="seller-quote-template">
+                  <table>
+                    <thead>
+                      <td>Item</td>
+                      <td>QTY</td>
+                      <td>Unit Price($)</td>
+                      <td>Amount</td>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div>{{quoteProduct.product_name}}</div>
+                        </td>
+                        <td>{{quoteProduct.quantity}}</td>
+                        <td>{{quoteMsg.seller_unit_price | currency}}</td>
+                        <td>{{quoteMsg.seller_price | currency}}</td>
+                      </tr>
+                    </tbody>
+                    <tfoot *ngIf="!quoteMsg.owner_margin">                     
+                      <tr>
+                        <td colspan="3">Total</td>
+                        <td>{{quoteMsg.seller_price | currency}}</td>
+                      </tr>
+                    </tfoot>
+                    <tfoot *ngIf="quoteMsg.owner_margin">
+                      <tr>
+                        <td colspan="3">Direct2resort fee</td>
+                        <td>{{quoteMsg.dirrect_to_resort_fee | currency}}</td>
+                      </tr>
+                      <tr>
+                        <td colspan="3">Re-packing and handling</td>                        
+                        <td>{{quoteMsg.repacking_handling | currency}}</td>
+                      </tr>
+                      <tr>
+                        <td colspan="3">10% Duty (Estimated)</td>
+                        <td>{{quoteMsg.duty_fee | currency}}</td>
+                      </tr>
+                      <tr>
+                        <td colspan="3">Total</td>
+                        <td>{{quoteMsg.seller_price + quoteMsg.owner_margin | currency}}</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <h5>Comment</h5>
+                <p>{{quoteMsg.seller_msg}}</p>
+                <div class="qmas-msg-footer text-right">
+                  <span class="badge badge-danger" *ngIf="quoteInfo.final_client_aproval === 'Rejected'">{{quoteInfo.final_client_aproval}} by Buyer</span>
+                  <button type="button" class="btn btn-primary btn-sm" (click)="approveQuoteIn(quoteMsg);" *ngIf="quoteMsg.quote_admin_status !== 'Approved'">Approve</button>
+                </div>                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

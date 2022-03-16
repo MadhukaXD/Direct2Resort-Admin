@@ -1,0 +1,196 @@
+<ul class="sidebar-nav">
+  <!-- <li>
+    <div class="nav-item">
+      <div class="nav-icon">        
+        <i class="apicon-dashboard"></i>
+      </div>
+      Dashboard
+    </div>
+  </li> -->
+
+  <li (click)="toggleMenu($event)">
+    <div class="nav-item has-sub-menu">
+      <div class="nav-icon">        
+        <img src="assets/images/icons/user.svg"/>
+      </div>
+      User Management
+      <div class="sub-menu-toggle">
+        <i class="apicon-arrow-down"></i>
+      </div>
+    </div>
+
+    <ul class="sub-nav">
+      <li routerLink="/page/seller-manager" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <div class="nav-item">
+          <div class="nav-icon">    
+          </div>
+          Seller Manager
+        </div>
+      </li>
+      <li routerLink="/page/buyer-manager" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <div class="nav-item">
+          <div class="nav-icon">     
+          </div>
+          Buyer Manager
+        </div>
+      </li>
+      <li routerLink="/page/logistic-partner-manager" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <div class="nav-item">
+          <div class="nav-icon">     
+          </div>
+          Logistic Partner Manager
+        </div>
+      </li>
+      <li routerLink="/page/admin-user-manager" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <div class="nav-item">
+          <div class="nav-icon">        
+          </div>
+          Admin Users
+        </div>
+      </li>
+    </ul>
+  </li>
+
+  <li (click)="toggleMenu($event)">
+    <div class="nav-item has-sub-menu">
+      <div class="nav-icon">        
+        <img src="assets/images/icons/products.svg"/>
+      </div>
+      Products
+      <div class="sub-menu-toggle">
+        <i class="apicon-arrow-down"></i>
+      </div>
+    </div>
+
+    <ul class="sub-nav">
+      <li routerLink="/page/product-manager" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <div class="nav-item">
+          <div class="nav-icon">            
+          </div>
+          Products List
+        </div>
+      </li>
+
+      <li routerLink="/page/series-manager" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <div class="nav-item">
+          <div class="nav-icon">            
+          </div>
+          Series Manager
+        </div>
+      </li>
+    </ul>
+  </li>
+
+  <li routerLink="/page/quote-manager" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <div class="nav-item">
+      <div class="nav-icon">        
+        <img src="assets/images/icons/qoute.svg"/>
+      </div>
+      Manage Quotes
+    </div>
+  </li>
+
+  <!-- <li (click)="toggleMenu($event)">
+    <div class="nav-item has-sub-menu">
+      <div class="nav-icon">        
+        <i class="apicon-manageRfq"></i>
+      </div>
+      Manage RFQ
+      <div class="sub-menu-toggle">
+        <i class="apicon-arrow-down"></i>
+      </div>
+    </div>
+
+    <ul class="sub-nav">
+      <li routerLink="/page/quote-manager" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <div class="nav-item">
+          <div class="nav-icon">   
+          </div>
+          Pending Quotes
+        </div>
+      </li>
+
+      <li routerLink="/page/approved-quotes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <div class="nav-item">
+          <div class="nav-icon">       
+          </div>
+          Approved Quotes
+        </div>
+      </li>
+    </ul>
+  </li> -->
+
+<li routerLink="/page/message-box" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+  <div class="nav-item">
+    <div class="nav-icon">        
+      <img src="assets/images/icons/messages.svg"/>
+    </div>
+    Messages
+  </div>
+</li>
+  <!-- <li>
+    
+
+  <li>
+    <div class="nav-item">
+      <div class="nav-icon">        
+        <i class="apicon-reviewsAndFeedbacks"></i>
+      </div>
+      Reviews & Feedbacks
+    </div>
+  </li>
+
+  <li>
+    <div class="nav-item">
+      <div class="nav-icon">        
+        <i class="apicon-statistics"></i>
+      </div>
+      Statistics
+    </div>
+  </li> -->
+
+  <li routerLink="/page/bid-quotes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <div class="nav-item">
+      <div class="nav-icon">
+        <img src="assets/images/icons/bid.svg"/>
+      </div>
+      Bids
+    </div>
+  </li>
+
+  <li routerLink="/page/sample-requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <div class="nav-item">
+      <div class="nav-icon">
+        <img src="assets/images/icons/sample-product.svg"/>
+      </div>
+      Sample Requests
+    </div>
+  </li>
+
+  <li routerLink="/page/data-setup" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <div class="nav-item">
+      <div class="nav-icon">        
+        <img src="assets/images/icons/settings.svg"/>
+      </div>
+      Data Setup
+    </div>
+  </li>
+
+  <li (click)="openHomePage();">
+    <div class="nav-item">
+      <div class="nav-icon">        
+        <img src="assets/images/icons/external.svg"/>
+      </div>
+      Direct2Resort
+    </div>
+  </li>
+
+  <li (click)="logout();">
+    <div class="nav-item">
+      <div class="nav-icon"> 
+        <img src="assets/images/icons/logout.svg"/>
+      </div>
+      Logout
+    </div>
+  </li>
+</ul>

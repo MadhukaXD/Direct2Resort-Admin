@@ -1,0 +1,129 @@
+.page-holder {
+    .page-header {
+        background-color: #c7cfd3;
+        height: 155px;
+
+        h2 {
+            color: #3a5a68;
+            margin: 0;
+            font-size: 22px;
+            font-weight: 400;
+        }
+  
+        .btn {
+            color: #707a80 !important;
+            font-size: 22px !important;
+        }
+
+        .page-header-inner {
+            padding: 40px 40px 10px 40px;
+
+            .header-action-bar {
+                padding-top: 8px;
+
+                .header-quote-info-holder {
+                    display: flex;
+                    flex-direction: row;
+
+                    .quote-info-item {
+                        margin-right: 40px;
+                        display: flex;
+                        flex-direction: column;
+
+                        small {
+                            text-transform: uppercase;
+                            font-weight: bold;
+                            font-size: 10px;
+                            color: #7f8e94;
+                            margin-bottom: 6px;
+                        }
+
+                        h2 {
+                            color: #3a5a68;
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
+    } 
+    
+    .page-actions {
+        margin-top: 20px;
+        
+        .ivys-btn-icon-left {
+            width: 100%;
+        }
+    }
+
+    .page-content {
+        padding: 20px 40px 10px 40px;
+    }
+
+    .selected-freights-holder {
+        margin-bottom: 10px;
+        width: 620px;
+
+        .selected-freights {
+            display: flex;
+            flex-direction: row;
+            margin: 0 0 20px 0;
+    
+            .freight-item {
+                width: 300px;
+                display: flex;
+                flex-direction: row;
+                box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.4);
+                border-radius: 4px;                
+                padding: 10px 10px;
+                &:nth-child(1) {
+                    margin-right: 20px;
+                }
+
+                .fi-icon {
+                    width: 60px;
+                    height: 60px;
+                    margin-right: 10px;
+    
+                    img {
+                        width: 100%;
+                        opacity: 0.6;
+                    } 
+                }
+    
+                .fi-content {
+                    h4 {
+                        font-size: 14px;
+                        font-weight: 400;
+                    }
+    
+                    h5 {
+                        font-size: 20px;
+                        color: green;
+                    }
+    
+                    h6 {
+                        font-size: 12px;
+                        font-weight: 400;
+                        color: #ff9900;
+                    }
+
+                    .approved-lbl {                        
+                        color: #ffffff;
+                        padding: 5px 10px;
+                        border-radius: 4px;
+                        font-weight: 400;
+                        font-size: 11px;
+                        &.pending {
+                            background-color: #405798;
+                        }
+                        &.confirmed {
+                            background-color: #409840;
+                        }
+
+                    }
+                }
+            }
+        }
+    }    
+}

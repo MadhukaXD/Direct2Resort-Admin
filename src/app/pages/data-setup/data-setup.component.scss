@@ -1,0 +1,91 @@
+.page-holder {
+    .page-header {
+        background-color: #c7cfd3;
+        height: 155px;
+
+        .page-header-inner {
+            padding: 40px 40px 10px 40px;
+
+            h2 {
+                color: #3a5a68;
+                margin: 0;
+                font-size: 22px;
+                font-weight: 400;
+            }
+    
+            .ivys-btn-icon-left {
+                width: 100%;
+            }
+        }
+        
+    }
+     
+    .page-actions {
+        margin-top: 20px;
+        
+        .ivys-btn-icon-left {
+            width: 100%;
+        }
+    }
+
+    .page-content {
+        padding: 20px 40px 10px 40px;
+
+        .data-setup-title-holder {
+            padding: 10px 0;
+            border-bottom: 1px solid #dddddd;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            
+            .data-setup-title {
+                font-size: 14px;
+                color: #3a5a68;
+                font-weight: 500;
+                margin: 0;                
+            }
+        }
+        
+    }
+}
+
+.cat-icon-holder {
+    display: flex;
+    background-color: #e0e0e0;
+    padding: 10px 10px;
+    flex-wrap: wrap;
+
+    .cat-icon {
+        padding: 10px 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        img {
+            margin-left: 10px;
+        }
+    }
+}
+
+:host ::ng-deep {
+    .panel {
+        margin-bottom: 10px;
+
+        .cat-title-img-holder {
+            display: flex;
+            align-items: center;
+
+            .cat-img {
+                background-color: #b5b5b5;
+                padding: 6px 6px;
+                margin-right: 6px;
+            }
+
+            p {
+                margin: 0 !important;
+            }
+        }
+    }
+}

@@ -1,0 +1,23 @@
+<div class="notification-menu-btn" [popover]="notoficationDrop" placement="bottom" [outsideClick]="true"
+  containerClass="notifications-drop" #pop="bs-popover">
+  <div class="new-count" *ngIf="notificationCount">{{notificationCount}}</div>
+  <i class="far fa-bell"></i>
+</div>
+
+<ng-template #notoficationDrop>
+  <div class="list-group" *ngIf="notifications.length">
+    <div  class="list-group-item list-group-item-action" *ngFor="let n of notifications" [ngClass]="{'new': n.seen === 0}" (click)="notificationOnClick(n); pop.hide()">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{n.notification_type}}</h5>
+        <small>{{n.created_time | amTimeAgo}}</small>
+      </div>
+      <p class="mb-1">{{n.notification_content}}</p>
+    </div>
+  </div>
+
+  <div class="list-group" *ngIf="!notifications.length">
+    <div  class="list-group-item list-group-item-action">
+      <p class="mb-1">You dont have any new notifications available</p>
+    </div>
+  </div>
+</ng-template>

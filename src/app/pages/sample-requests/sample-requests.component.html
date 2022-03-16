@@ -1,0 +1,113 @@
+<div class="page-holder" [ng2-loading]="isLoading">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Sample Requests</h2>
+        </div>
+    
+        <div class="col-md-6 text-right">
+         
+        </div>
+      </div>
+
+      <div class="header-action-bar">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="filter-btns-holder">
+              <div class="filter-label">
+                Sample Requests Status:
+              </div>
+              <div class="filter-btn" (click)="filterSampleRequests('all')" [ngClass]="{'selected': selectedFilter === 'all'}">
+                All
+              </div>
+              <div class="filter-btn" (click)="filterSampleRequests('Pending')" [ngClass]="{'selected': selectedFilter === 'Pending'}">
+                Pending
+              </div>
+              <div class="filter-btn" (click)="filterSampleRequests('Shipped')" [ngClass]="{'selected': selectedFilter === 'Shipped'}">
+                Shipped
+              </div>                        
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+  </div>
+
+  <div class="page-content">
+    <table class="table table-ivys" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead>
+      <tr>
+        <th scope="col"></th>        
+        <th scope="col">Request ID</th>
+        <th>Image</th>
+        <th scope="col">Product</th>
+        <th scopeS="col">Buyer</th>        
+        <th scope="col">Base Price</th>
+        <th scope="col">Sample Price</th>
+        <th scope="col">Request / Shipped date</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let sampleReq of sampleReqData">
+        <th></th>
+        <th scope="row">{{sampleReq.sample_req_id}}</th>
+        <th>
+          <div class="tbl-img" [ngStyle]="getProductImg(sampleReq.product_imgs)">
+          </div>
+        </th>        
+        <td>{{sampleReq.product_name}}</td>
+        <td>{{sampleReq.buyer_name}} <br/> <small>{{sampleReq.buyer_email}}</small></td>
+        
+        <td>{{sampleReq.product_price | currency
+          }}</td>
+        <td>
+          {{sampleReq.product_sample_price | currency}}          
+        </td>
+        <td>
+          Requested On {{sampleReq.requested_date | date: 'short'}}
+          <br>
+          <small *ngIf="sampleReq.shipped_date">
+            Shipped On {{sampleReq.shipped_date | date: 'short'}}
+          </small>
+        </td>
+        <td>
+          <span class="badge badge-primary" *ngIf="sampleReq.sample_status === 'Pending'">Pending</span>
+          <span class="badge badge-success" *ngIf="sampleReq.sample_status === 'Shipped'">Shipped</span>
+        </td>
+        <td>
+          <button type="button" tooltip="Mark As Shipped" class="btn btn-light btn-sm text-success btn-sm" (click)="shipSample(sampleReq);"
+          [disabled]="sampleReq.sample_status === 'Shipped'">
+            <i class="fas fa-check-circle"></i>
+          </button>
+          <!-- <button type="button" tooltip="Reject" class="btn btn-light btn-sm text-danger btn-sm" *ngIf="product.admin_approval === 'Approved' || product.admin_approval === 'Pending' && product.deleted === 0" (click)="rejectSeries(product);">
+            <i class="fas fa-ban"></i>
+          </button>
+          
+          <button type="button" tooltip="View Product List" class="btn btn-light btn-sm btn-sm" (click)="openProductListModal(product)">
+            <i class="fas fa-list"></i>
+          </button>           -->
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- <div class="modal fade" bsModal #sampleReqModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-events-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Product List</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="seriesProductList.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+    </div>
+  </div>
+</div> -->

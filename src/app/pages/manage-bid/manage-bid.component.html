@@ -1,0 +1,256 @@
+<div class="page-holder">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Bid Manager</h2>
+        </div>    
+      </div>
+
+      <div class="header-action-bar">
+        <div class="row">
+          <div class="col-12">
+            <div class="header-quote-info-holder">
+              <div class="quote-info-item">
+                <small>Logistic Partner</small>
+                <h2>{{bidData?.lpName}}</h2>
+              </div>
+              <div class="quote-info-item">
+                <small>Bid Submited Date</small>
+                <h2>{{bidData?.bid_submited_date | date: 'M/d/yy hh:mm a'}}</h2>
+              </div>
+              <div class="quote-info-item">
+                <small>Bid Expire On</small>
+                <h2>{{bidData?.bid_expired_in | date: 'M/d/yy hh:mm a'}}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+    </div>    
+  </div>
+
+  <div class="page-content">
+    <div class="seller-request">
+      
+      <div class="alert alert-success" role="alert" *ngIf="bidData?.bid_status === 'Approved'">
+        <h4 class="alert-heading">Bid Approved</h4>
+        <p>This bid approved by Admin</p>        
+      </div>
+
+      <div class="bid-summary-box">
+        <div class="bsb-header">
+          <h3>Seller Request</h3>
+        </div>
+        <div class="bsb-body">
+          <table>
+            <tbody>
+              <tr>
+                <td>Origin</td>
+                <td class="text-right">
+                  <strong>{{bidData?.origin}}</strong>
+                </td>
+                <td>Destination</td>
+                <td class="text-right">
+                  <strong>{{bidData?.destination}}</strong>
+                </td>
+              </tr>
+              <tr>
+                <td>Box Type</td>
+                <td class="text-right">
+                  <strong>{{bidData?.boxType}}</strong>
+                </td>
+                <td>Freight Type</td>
+                <td class="text-right">
+                  <strong>{{bidData?.frieght_method}}</strong>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bsb-footer"></div>
+      </div>
+    </div>
+    <div>
+      <form name="form" class="quote-managment-panel">
+      <div class="qma-section">        
+        <div class="qmas-body">
+          <div class="bid-quote-tbl">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Terms</th>
+                  <th scope="col" class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">Air Freight Rate</th>
+                  <th scope="col" class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">Air Freight Cost</th>
+                  <th scope="col" class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">Sea Freight Rate</th>
+                  <th scope="col" class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">Sea Freight Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Pickup & Delivery</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.pickupDelivery.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.pickupDelivery.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.pickupDelivery.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.pickupDelivery.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Handling Fees</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.handlingFees.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.handlingFees.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.handlingFees.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.handlingFees.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Export Documents</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.exportDocuments.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.exportDocuments.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.exportDocuments.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.exportDocuments.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Container Loading</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.containerLoading.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.containerLoading.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.containerLoading.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.containerLoading.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Terminal Fees</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.terminalFees.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.terminalFees.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.terminalFees.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.terminalFees.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Freight</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.freight.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.freight.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.freight.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.freight.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Import Documents</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.importDocuments.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.importDocuments.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.importDocuments.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.importDocuments.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Inland to Terminal</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.inlandToTerminal.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.inlandToTerminal.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.inlandToTerminal.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.inlandToTerminal.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Container Unloading</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.containerUnloading.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.containerUnloading.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.containerUnloading.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.containerUnloading.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Import Handling</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.importHandling.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.importHandling.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.importHandling.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.importHandling.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Door Delivery</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.doorDeliveryg.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.doorDeliveryg.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.doorDeliveryg.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.doorDeliveryg.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Customs Clearance</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.customsClearance.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.customsClearance.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.customsClearance.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.customsClearance.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Duty</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.duty.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.duty.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.duty.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.duty.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Taxes</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.taxes.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.taxes.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.taxes.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.taxes.cost | currency}}</td>
+                </tr>
+                <tr>
+                  <th>Other</th>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.other.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">{{airFreightData?.other.cost | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.other.rate | currency}}</td>
+                  <td class="text-right" *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">{{seaFreightData?.other.cost | currency}}</td>
+                </tr>               
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="qma-section">
+        <div class="bid-summary-box">
+          <div class="bsb-header">
+            <h3>Bid Summary</h3>
+          </div>
+          <div class="bsb-body">
+            <table>
+              <tbody>
+                <tr *ngIf="bidData?.frieght_method === 'Air' || bidData?.frieght_method === 'Both'">
+                  <td>Air Freight Total</td>
+                  <td class="text-right">
+                    <strong>{{airFreightData?.total | currency}}</strong>
+                  </td>
+                  <td>
+                    ETA: {{bidData?.airEta | date: 'MM/dd/yyyy'}}
+                  </td>                  
+                </tr>
+                <tr *ngIf="bidData?.frieght_method === 'Sea' || bidData?.frieght_method === 'Both'">
+                  <td>Sea Freight Total</td>
+                  <td class="text-right">
+                    <strong>{{seaFreightData?.total | currency}}</strong>
+                  </td>
+                  <td>
+                    ETA: {{bidData?.seaEta | date: 'MM/dd/yyyy'}}
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                   {{bidData?.special_remarks}}
+                  </td>
+                </tr>
+                <tr *ngIf="bidData?.bid_status === 'In Review'">
+                  <td colspan="3">
+                    <div class="alert alert-success" role="alert" *ngIf="bidData?.approved_bid_type === 'air'">
+                      <h4 class="alert-heading">Submited to Buyer!</h4>
+                      <p>Air Freight bid submited to the buyer for the final confirmation</p>
+                    </div>
+
+                    <div class="alert alert-success" role="alert" *ngIf="bidData?.approved_bid_type === 'sea'">
+                      <h4 class="alert-heading">Submited to Buyer!</h4>
+                      <p>Sea Freight bid submited to the buyer for the final confirmation</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="bsb-footer"></div>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>

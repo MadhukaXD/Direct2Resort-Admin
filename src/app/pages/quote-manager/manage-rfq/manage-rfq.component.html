@@ -1,0 +1,380 @@
+<div class="page-holder" [ng2-loading]="isLoading">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>
+            <i class="fas fa-arrow-left" (click)="goBack()"></i>
+            Manage Quotes
+          </h2>
+          <span class="badge mr-1" *ngIf="quoteMain && quoteMain?.submited_to_freight === 0 && quoteMain?.seller_close_quote !== 1 && quoteMain?.final_client_aproval !== 'Close'" [ngClass]="{'badge-warning':quoteMain?.final_client_aproval === 'Pending', 
+          'badge-success':quoteMain?.final_client_aproval === 'Aproved', 
+          'badge-danger':quoteMain?.final_client_aproval === 'Rejected'}">
+            {{quoteMain?.final_client_aproval}}
+          </span>
+          <span class="badge mr-1" *ngIf="quoteMain?.ready_to_ship === 1 && quoteMain?.submited_to_freight === 0" [ngClass]="{'badge-primary':quoteMain?.ready_to_ship === 1}">
+            Ready to Ship
+          </span>
+          <span class="badge mr-1 badge-info" *ngIf="quoteMain?.ready_to_ship === 1 && quoteMain?.submited_to_freight === 1 && quoteMain?.buyer_apporved_frieght_method === null">
+            Submitted to LP
+          </span>
+
+          <span class="badge mr-1 badge-danger" *ngIf="quoteMain?.seller_close_quote === 1">
+            Closed By Seller
+          </span>
+          <span class="badge mr-1 badge-danger" *ngIf="quoteMain?.final_client_aproval === 'Close'">
+            Closed By Buyer
+          </span> 
+
+          <span class="badge mr-1 badge-success" *ngIf="quoteMain?.buyer_apporved_frieght_method === 'Air' || quoteMain?.buyer_apporved_frieght_method === 'Sea'">
+            Buyer Confirmed
+          </span>
+        </div>
+    
+        <div class="col-md-6 text-right">
+          
+        </div>
+      </div>
+
+      <div class="header-action-bar">
+        <div class="row">
+          <div class="col-12">
+            <div class="header-quote-info-holder">
+              <div class="quote-info-item">
+                <small>Quotation ID</small>
+                <h2>{{lastQuoteInstance?.quote_uuid}}</h2>
+              </div>
+              <div class="quote-info-item">
+                <small>Buyer</small>
+                <h2>{{quoteMain?.buyer_company_name}}</h2>
+              </div>
+              <div class="quote-info-item">
+                <small>Seller</small>
+                <h2>{{quoteMain?.seller_company_name}}</h2>
+              </div>
+              <div class="quote-info-item">
+                <small>Created Date</small>
+                <h2>{{quoteMain?.created_date | date: 'short'}}</h2>
+              </div>
+              <div class="quote-info-item">
+                <small>Lsat Update On</small>
+                <h2>{{quoteMain?.last_updated_date | date: 'short'}}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+    </div>    
+  </div>
+
+  <div class="page-content">
+    <div class="quote-managment-panel">
+      <div class="qma-section">
+        <div class="qmas-header">
+          <h4>Buyer Quote Information</h4>
+        </div>
+
+        <div class="qmas-body">
+          <div class="qmas-quote-product-item">   
+            <table>
+              <thead>
+                <td width="42px">Item</td>
+                <td></td>
+                <td>QTY</td>
+                <td>Unit Price</td>
+                <td>Amount</td>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of lastQuoteInstance?.pricingProducts">
+                  <td>
+                    <div class="qpi-img" [ngStyle]="getProductImg(product.product_imgs)"></div>
+                  </td>
+                  <td>
+                    <h5 class="qpi-name">{{product.product_name}}</h5>
+                  </td>
+                  <td>
+                    <h5 class="qpi-qty">
+                      {{product.quantity}}
+                    </h5>
+                  </td>
+                  <td>
+                    <h5 class="qpi-qty">
+                     <span *ngIf="product?.pricing[0]?.seller_unit_price">
+                      {{product?.pricing[0]?.seller_unit_price | currency}}
+                     </span>
+                     <span *ngIf="!product?.pricing[0]?.seller_unit_price">
+                      -
+                     </span>
+                    </h5>
+                  </td>
+                  <td>
+                    <h5 class="qpi-qty">
+                      <span *ngIf="product?.pricing[0]?.seller_price">
+                        {{product?.pricing[0]?.seller_price | currency}}
+                       </span>
+                       <span *ngIf="!product?.pricing[0]?.seller_price">
+                        -
+                       </span>
+                    </h5>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <table class="markup-tbl">
+            <tbody>
+              <tr>
+                <td>Direct2Resort Fee 15%</td>
+                <td class="text-right">
+                  <span *ngIf="lastQuoteInstance?.dirrect_to_resort_fee">
+                    {{lastQuoteInstance?.dirrect_to_resort_fee | currency}}
+                  </span>
+                  <span *ngIf="!lastQuoteInstance?.dirrect_to_resort_fee">
+                    -
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Re-packing and handling 5%</td>
+                <td class="text-right">                  
+                  <span *ngIf="lastQuoteInstance?.repacking_handling">
+                    {{lastQuoteInstance?.repacking_handling | currency}}
+                  </span>
+                  <span *ngIf="!lastQuoteInstance?.repacking_handling">
+                    -
+                  </span>
+                </td>
+              </tr>              
+              <tr>
+                <td><strong>Total</strong></td>
+                <td class="text-right">
+                  <span *ngIf="lastQuoteInstance?.quote_total">
+                    <strong>{{lastQuoteInstance?.quote_total | currency}}</strong>                  
+                  </span>
+                  <span *ngIf="!lastQuoteInstance?.quote_total">
+                    -
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Duty</td>
+                <td class="text-right">
+                  <span *ngIf="lastQuoteInstance?.duty_fee">
+                    {{lastQuoteInstance?.duty_fee | currency}}
+                  </span>
+                  <span *ngIf="!lastQuoteInstance?.duty_fee">
+                    -
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="qmas-footer" *ngIf="quoteMain?.seller_close_quote === 1">
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Quote Closed By Seller</h4>
+            <p>This quote has been closed by the Seller. You cannot update or contiune this quote.</p>
+          </div>
+        </div>
+
+        <div class="qmas-footer" *ngIf="quoteMain?.final_client_aproval === 'Close'">
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Closed By Buyer</h4>
+            <p>This quote has been closed by the Buyer. You cannot update or contiune this quote.</p>
+          </div>
+        </div>
+      </div>
+      <div class="qma-section">
+        <div class="qmas-header">
+          <h4>Quote History</h4>
+        </div>
+        <div class="qmas-msg-list-holder" #scrollMsgFeed>
+          <div *ngFor="let qInstance of fullQuoteInstance">
+            <div *ngFor="let msg of qInstance.tmpMsg">
+              <div class="qmas-msg-item" *ngIf="msg.msgType === 'textMsg'" [ngClass]="{'my-msg': msg.user_category === 1, 'client-msg': msg.user_category === 2}">
+                <div class="qmas-msg-body">
+                  <!-- <div class="msg-approved-icon" *ngIf="quoteMsg.quote_admin_status === 'Approved' || quoteMsg.quote_admin_status === 'To Buyer'">
+                    <i class="fas fa-check-circle"></i> Admin Approved
+                  </div> -->
+                  <h6 class="msg-date-time">
+                    {{msg?.created_date | date: 'medium'}} by 
+                    <span *ngIf="msg.user_category === 1">Buyer</span>
+                    <span *ngIf="msg.user_category === 2">Seller</span>
+                    <span *ngIf="msg.user_category === 4">Admin</span>
+                  </h6>
+                  <h5>Comment</h5>
+                  <p>
+                    {{msg?.message_body}}
+                  </p> 
+
+                  <div class="qmas-msg-footer text-right" *ngIf="!msg.editFormIsOpen && !msg.rejectFormIsOpen && quoteMain?.seller_close_quote === 0 && quoteMain?.final_client_aproval !== 'Close'">              
+                    <button type="button" class="btn btn-sm btn-primary mr-1" (click)="approveQuoteInstance(qInstance.series_instance_id, msg.message_id, msg.user_category)" *ngIf="fullQuoteInstance?.length === 1 && msg?.approval === 'Pending'">Approve</button>                    
+                    <button type="button" class="btn btn-primary btn-sm" *ngIf="fullQuoteInstance?.length > 1 && msg?.approval === 'Pending'" (click)="approveMsg(msg.message_id, 'Approved', msg.user_category)">Approve</button>
+                    <button type="button" class="btn btn-warning btn-sm ml-1" (click)="openEditForm(qInstance, msg)" *ngIf="msg?.approval === 'Pending'">Edit</button>
+                    <button type="button" class="btn btn-danger btn-sm ml-1" (click)="openRejectForm(qInstance, msg)" *ngIf="msg?.approval === 'Pending'">Reject</button>
+                  </div>
+                  
+                  <div>
+                    <span class="badge badge-pill badge-success mt-1" *ngIf="msg.approval === 'Approved'">Admin Approved</span>
+                    
+                    <div *ngIf="msg.approval === 'Rejected'">
+                      <span class="badge badge-pill badge-danger mt-1">Admin Rejected</span>
+                      <div class="alert alert-danger mt-2" role="alert" *ngIf="msg.admin_reject_msg">
+                        <strong>Admin Reject Message: </strong> <br>
+                        {{msg.admin_reject_msg}}                                           
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="qmas-msg-footer" *ngIf="msg.rejectFormIsOpen">
+                    <div class="form-group ivys-input-style mt-4">
+                      <label>Reject Message</label>
+                      <textarea class="form-control" rows="2" [(ngModel)]="msgRejectMsg" name="msgRejectMsg"></textarea>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-light btn-sm mr-1" (click)="openRejectForm(qInstance, msg)">Cancel</button>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="approveMsg(msg.message_id, 'Rejected', msg.user_category)">Reject</button>
+                      </div>
+                    </div>
+                  </div> 
+
+                  <div class="qmas-msg-footer" *ngIf="msg.editFormIsOpen">
+                    <div class="form-group ivys-input-style mt-4">
+                      <label>Edit Message and Approve</label>
+                      <textarea class="form-control" rows="2" [(ngModel)]="editMsg" name="editMsg"></textarea>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-light btn-sm mr-1" (click)="openEditForm(qInstance, msg)">Cancel</button>
+                        <button type="button" class="btn btn-success btn-sm" (click)="approveMsg(msg.message_id, 'Edited', msg.user_category)">Edit and Approve</button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>                 
+              </div>
+
+              <div class="qmas-msg-item client-msg" *ngIf="msg.msgType === 'quoteTpl'">
+                <div class="qmas-msg-body">
+                  <h4 class="quote-id">Quotation ID #{{qInstance?.series_instance_id}}</h4>
+                  <h6 class="msg-date-time">
+                    {{qInstance?.created_date | date: 'medium'}} by Seller
+                  </h6>
+                  <div>
+                    <div class="seller-quote-template">
+                      <table>
+                        <thead>
+                          <td>Item</td>
+                          <td>QTY</td>
+                          <td>Unit Price($)</td>
+                          <td>Amount</td>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let product of msg.pricingProducts">
+                            <td>
+                              <div>{{product.product_name}}</div>
+                            </td>
+                            <td>{{product.quantity}}</td>
+                            <td>{{product?.pricing[0]?.seller_unit_price | currency}}</td>
+                            <td>{{product?.pricing[0]?.seller_price | currency}}</td>
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="3">Total</td>
+                            <td>{{msg.product_items_amount | currency}}</td>
+                          </tr>
+                          <tr>
+                            <td colspan="3">Direct2resort fee</td>
+                            <td>{{msg.dirrect_to_resort_fee | currency}}</td>
+                          </tr>
+                          <tr>
+                            <td colspan="3">Re-packing and handling</td>                        
+                            <td>{{msg.repacking_handling | currency}}</td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="3">Grand Total (Without Duty)</td>
+                            <td>{{msg.quote_total | currency}}</td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="3">Duty (Estimated)</td>
+                            <td>{{msg.duty_fee | currency}}</td>
+                          </tr>
+
+                          <tr *ngIf="msg?.manufacture_leadtime">
+                            <td colspan="3">Production Lead Time</td>
+                            <td>{{msg?.manufacture_leadtime}} Days</td>
+                          </tr>
+
+                        </tfoot>
+                      </table>
+                    </div>
+                    <hr/>
+                    <h5>Comment</h5>
+                    <p>
+                      {{msg?.quoteComment?.message_body}}
+                    </p>                  
+                  </div>
+
+                  <span class="badge badge-pill badge-success mt-1" *ngIf="qInstance.quote_admin_status === 'Approved' && qInstance.buyer_reject != 1 && msg.approval != 'Pending'">
+                    Admin Approved
+                  </span>
+                  <br>
+                  <span class="badge badge-pill badge-success mt-1" *ngIf="qInstance.quote_approved === 1">
+                    <i class="far fa-thumbs-up" aria-hidden="true"></i> This quote has been accepted by the Buyer 
+                  </span>
+                  
+                  <div class="buyer-rejected clearfix" *ngIf="qInstance.buyer_reject === 1">
+                    <span class="badge badge-pill badge-warning mt-1" *ngIf="qInstance.buyer_rejected_msg">
+                      Rejected by Buyer
+                    </span>
+                    <div class="alert alert-warning mt-2" role="alert" *ngIf="qInstance.buyer_rejected_msg">
+                      <strong>Buyer Reject Message: </strong> <br>
+                      {{qInstance.buyer_rejected_msg}}                                           
+                    </div> 
+                    <button type="button" class="btn btn-primary btn-sm mb-1 mt-1 float-right" (click)="openRejectForm(qInstance, msg)" *ngIf="!msg.rejectFormIsOpen && qInstance.quote_admin_status != 'Buyer Rejected' && quoteMain?.seller_close_quote === 0 && quoteMain?.final_client_aproval !== 'Close'">Approve</button>                     
+                  </div>
+
+                  <div *ngIf="qInstance.quote_admin_status === 'Rejected' || qInstance.quote_admin_status === 'Buyer Rejected'">
+                    <span class="badge badge-pill badge-danger">Admin Rejected</span>
+                    <div class="alert alert-danger mt-2" role="alert">                    
+                      <strong>Admin Rejected Message: </strong> <br>
+                      {{qInstance.admin_rejected_msg}}
+                    </div> 
+                  </div>
+                  
+                  <div class="qmas-msg-footer text-right" *ngIf="!msg.rejectFormIsOpen">
+                    <button 
+                    *ngIf="qInstance.quote_admin_status === 'Pending' || msg.approval === 'Pending' && qInstance.quote_admin_status !== 'Rejected'" 
+                    type="button" class="btn btn-sm btn-primary mr-1 mb-1" 
+                    (click)="approveQuoteInstance(qInstance.series_instance_id, msg.quoteComment.message_id)">Approve</button>
+
+                    <button type="button" class="btn btn-danger btn-sm mb-1" (click)="openRejectForm(qInstance, msg)" *ngIf="!msg.rejectFormIsOpen && msg.approval === 'Pending' && qInstance.quote_admin_status != 'Rejected' && quoteMain?.seller_close_quote === 0 && quoteMain?.final_client_aproval !== 'Close'">Reject</button>                    
+                  </div>
+
+                  <div class="qmas-msg-footer" *ngIf="msg.rejectFormIsOpen">
+                      <div class="form-group ivys-input-style mt-4">
+                        <label>Buyer's Response</label>
+                        <textarea class="form-control" rows="2" [(ngModel)]="quoteRejectMsg" name="quoteRejectMsg">hfghgfhg</textarea>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 text-right">
+                          <button type="button" class="btn btn-light btn-sm mr-1" (click)="openRejectForm(qInstance, msg)">Cancel</button>
+                          <button type="button" class="btn btn-danger btn-sm" (click)="rejectQuote(qInstance)">Reject</button>
+                        </div>
+                      </div>
+                  </div>               
+                </div>
+              </div>
+            </div>              
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

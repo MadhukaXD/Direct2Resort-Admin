@@ -1,0 +1,53 @@
+<div class="page-holder" [ng2-loading]="isLoading">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Logistic Partner Bids</h2>
+        </div>
+    
+        <div class="col-md-6 text-right">
+          
+        </div>
+      </div>
+    </div>    
+  </div>
+
+  <div class="page-content">
+    <table class="table table-ivys" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Quote ID</th>
+        <th scope="col">Buyer</th>
+        <th scope="col">Seller</th>
+        <th scope="col">Published for Bid</th>
+        <th scope="col">Expire On</th>
+        <th scope="col">Bid Count</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let bidQuote of bidQuoteList">
+        <th scope="row"></th>
+        <td>{{bidQuote.quote_uuid}}</td>
+        <td>{{bidQuote.buyername}}</td>
+        <td>{{bidQuote.sellername}}</td>
+        <td>{{bidQuote.submited_to_freight_date | date: 'M/d/yy hh:mm a'}}</td>
+        <td>{{bidQuote.bid_expired_in | date: 'M/d/yy hh:mm a'}}</td>
+        <td>{{bidQuote?.count[0].count}}</td>
+        <td>
+          <span class="badge badge-success" *ngIf="bidQuote.logistic_bid_admin_aproval === 1 && bidQuote.buyer_apporved_frieght_method === null">Submitted to Buyer</span>
+          <span class="badge badge-success" *ngIf="bidQuote.buyer_apporved_frieght_method === 'Air' || bidQuote.buyer_apporved_frieght_method === 'Sea'">Buyer Confirmed</span>
+          <span class="badge badge-light" *ngIf="bidQuote.logistic_bid_admin_aproval === 0">Pending</span>
+          
+        </td>        
+        <td>
+          <button type="button" class="btn btn-light btn-sm" [routerLink]="['/page/bids', bidQuote.quote_uuid]">Manage</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

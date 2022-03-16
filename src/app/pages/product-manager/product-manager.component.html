@@ -1,0 +1,96 @@
+<div class="page-holder" [ng2-loading]="isLoading">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Product Manager</h2>
+        </div>
+    
+        <div class="col-md-6 text-right">
+        </div>
+      </div>
+
+      <div class="header-action-bar">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="filter-btns-holder">
+              <div class="filter-label">
+                Product Status:
+              </div>
+              <div class="filter-btn" (click)="filterUserist('all')" [ngClass]="{'selected': selectedFilter === 'all'}">
+                All
+              </div>
+              <div class="filter-btn" (click)="filterUserist('Approved')" [ngClass]="{'selected': selectedFilter === 'Approved'}">
+                Approved
+              </div>
+              <div class="filter-btn" (click)="filterUserist('PendingApproval')" [ngClass]="{'selected': selectedFilter === 'PendingApproval'}">
+                Approval Pending
+              </div>
+              <div class="filter-btn" (click)="filterUserist('Featured')" [ngClass]="{'selected': selectedFilter === 'Featured'}">
+                Featured
+              </div>            
+              <div class="filter-btn" (click)="filterUserist('Deleted')" [ngClass]="{'selected': selectedFilter === 'Deleted'}">
+                Deleted
+              </div>                         
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+  </div>
+
+  <div class="page-content">
+    <table class="table table-ivys" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Product ID</th>
+        <th scope="col">Company</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Category</th>
+        <th scope="col">Created On</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let product of productList">
+        <th></th>
+        <th scope="row">{{product.product_id}}</th>
+        <td>{{product.company_name}}</td>
+        <td>{{product.product_name}}</td>
+        <td>{{product.product_cat_name}} > {{product.sub_prod_cat_name}}</td>
+        <td>
+          {{product.created_date | date: 'short'}} <br> 
+          <small *ngIf="product.last_updated">Last Updated On {{product.last_updated | date: 'short'}}</small>
+        </td>
+        <td>
+          <span class="badge badge-success" *ngIf="product.admin_approved === 1 && product.deleted === 0">Approved</span>
+          <span class="badge badge-warning" *ngIf="product.admin_approved === 0 && product.deleted === 0">Pending Approval</span>
+          <span class="badge badge-danger" *ngIf="product.deleted === 1">Deleted</span>
+          <span class="badge badge-info ml-1" *ngIf="product.featured_product === 1 && product.deleted === 0">Featured</span>          
+        </td>
+        <td>
+          <button type="button" tooltip="Unpublish Product" class="btn btn-light btn-sm text-danger btn-sm" *ngIf="product.admin_approved === 1 && product.deleted === 0" (click)="approveRejectProduct(product, 0);">
+            <i class="fas fa-ban"></i>
+          </button>
+          <button type="button" tooltip="Publish Product" class="btn btn-light btn-sm text-success btn-sm" *ngIf="product.admin_approved === 0 && product.deleted === 0" (click)="approveRejectProduct(product, 1);">
+            <i class="fas fa-check-circle"></i>
+          </button>
+          
+          <button type="button" tooltip="Mark as Featured" class="btn btn-light btn-sm text-success" *ngIf="product.admin_approved === 1 && product.featured_product === 0 && product.deleted === 0" (click)="toggleFeaturedPrdct(product.product_id, 1)">
+            <i class="fas fa-star"></i>
+          </button>
+          <button type="button" tooltip="Remove Featured" class="btn btn-light btn-sm text-danger" *ngIf="product.admin_approved === 1 && product.featured_product === 1 && product.deleted === 0" (click)="toggleFeaturedPrdct(product.product_id, 0)">
+            <i class="far fa-star"></i>
+          </button>
+          
+          <button type="button" tooltip="View Product" class="btn btn-light btn-sm" *ngIf="product.deleted === 0" (click)="toggleFeaturedPrdct(product.product_id, 0)" [routerLink]="['/page/product', product.product_url]">
+            <i class="far fa-eye"></i>
+          </button>         
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

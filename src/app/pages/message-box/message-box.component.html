@@ -1,0 +1,109 @@
+<div class="page-holder" [ng2-loading]="isLoading">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Messages</h2>
+        </div>
+    
+        <div class="col-md-6 text-right">
+          
+        </div>
+      </div>     
+    </div>    
+  </div>
+
+  <div class="page-content">
+    <div class="quote-managment-panel">
+      <div class="qma-section">
+        <div class="qmas-header">
+          <h4>Messages</h4>
+        </div>
+
+        <div class="message-list-holder">
+          <div class="msg-item clearfix" *ngFor="let msg of msgList" (click)="getSignleMsg(msg)" [ngClass]="{'unread': msg.readByAdmin === false}">
+            <div class="product-img" [ngStyle]="getProductImg(msg.Product.product_imgs)">              
+            </div>
+            <p>{{msg.Product.product_name}} <br> <small>Message ID: {{msg.uuid}}</small></p>
+            <div class="date-time">{{msg.updatedAt | date: 'M/d/yy hh:mm a'}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qma-section">
+
+        <div class="qmas-body">
+          <div class="qmas-msg-list-holder" >
+
+            <div class="qmas-msg-list-holder" #scrollMsgFeed>
+
+              <div class="qmas-msg-item" *ngFor="let tMsg of msgTread" [ngClass]="{'my-msg': tMsg.msgFrom === 'BUYER', 'client-msg': tMsg.msgFrom === 'SELLER'}">
+                <div class="qmas-msg-body">
+                  <h6 class="msg-date-time">
+                    {{tMsg.createdAt | date: 'M/d/yy hh:mm a'}} by 
+                    <span *ngIf="tMsg.msgFrom === 'BUYER'">Buyer</span>
+                    <span *ngIf="tMsg.msgFrom === 'SELLER'">Seller</span> 
+                  </h6>
+
+                  <div *ngIf="!tMsg.formOpen">
+                    <p>{{tMsg.messageContent}}</p>  
+                    <span class="badge badge-pill badge-success mt-1" *ngIf="tMsg.adminStatus ==='APPROVED'">
+                      Approved
+                    </span>
+                    <span class="badge badge-pill badge-danger mt-1" *ngIf="tMsg.adminStatus ==='REJECTED'">
+                      Rejected
+                    </span>
+                    <div *ngIf="tMsg.adminStatus ==='REJECTED'">
+                      <div class="alert alert-danger mt-2" role="alert">
+                        <strong>Admin Reject Message: </strong> <br>
+                        {{tMsg.adminNote}}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="qmas-msg-footer" *ngIf="tMsg.formOpen">
+                    <div class="form-group ivys-input-style mt-4">
+                      <label>Edit Message and Approve</label>
+                      <textarea class="form-control" rows="2" [(ngModel)]="editMsg" name="editMsg"></textarea>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-light btn-sm mr-1" (click)="openEditForm(tMsg)">Cancel</button>
+                        <button type="button" class="btn btn-success btn-sm" (click)="approve(tMsg, 'Edited')">Edit and Approve</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button type="button" class="btn btn-primary btn-sm mt-2 mr-2" *ngIf="tMsg.adminStatus ==='PENDING' && !tMsg.formOpen" (click)="approve(tMsg, 'Approved')">
+                    Approve
+                  </button>  
+                  <button type="button" class="btn btn-warning btn-sm mt-2 mr-2" *ngIf="tMsg.adminStatus ==='PENDING' && !tMsg.formOpen" (click)="openEditForm(tMsg)">
+                    Edit
+                  </button>
+                  <button type="button" class="btn btn-danger btn-sm mt-2 mr-2" *ngIf="tMsg.adminStatus ==='PENDING' && !tMsg.formOpen" (click)="reject(tMsg)">
+                    Reject
+                  </button>             
+                </div>                
+              </div>
+            </div>
+
+            <!-- <div class="qmas-msg-item" *ngFor="let tMsg of msgTread" [ngClass]="{'my-msg': tMsg.user_id !== tMsg.buyer_id, 'client-msg': tMsg.user_id === tMsg.buyer_id}">
+              <div class="qmas-msg-body">
+                <h6 class="msg-date-time">
+                  {{tMsg.created_date | date: 'M/d/yy hh:mm a'}} by 
+                  <span *ngIf="tMsg.user_id === tMsg.buyer_id">Buyer</span>
+                  <span *ngIf="tMsg.user_id !== tMsg.buyer_id">Seller</span> 
+                </h6>
+                <p class="mb-2">{{tMsg.message_body}}</p>  
+                <button type="button" class="btn btn-primary btn-sm mr-2" *ngIf="tMsg.admin_approval === 'Pending'" (click)="approve(tMsg)">
+                  Approve
+                </button> 
+                           
+              </div>                
+            </div> -->
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>

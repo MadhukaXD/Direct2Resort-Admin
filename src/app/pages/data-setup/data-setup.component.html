@@ -1,0 +1,169 @@
+<div class="page-holder">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Data Setup</h2>
+        </div>
+    
+        <div class="col-md-6 text-right">
+          
+        </div>
+      </div>
+    </div>    
+  </div>
+
+  <div class="page-content">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="data-setup-title-holder" [ng2-loading]="isLoadingCategoryList">
+          <h3 class="data-setup-title">Categories and Category Specific Attributes</h3>
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="addCategoryModalOpen()">Add New Category</button>
+        </div>        
+        <accordion *ngFor="let category of categoryList">
+          <accordion-group>
+            <button class="btn btn-link btn-block clearfix" accordion-heading type="button">
+              <div class="cat-title-img-holder pull-left float-left">
+                <div class="cat-img">
+                  <img src="{{iconPath}}/{{category.product_cat_img}}"/>
+                </div>
+                <p>{{category.product_cat_name}}</p>  
+              </div>              
+              <span class="badge badge-danger float-right pull-right ml-2" (click)="deleteCategory(category)">Delete</span>
+              <span class="badge badge-warning float-right pull-right" (click)="editCategoryModal(category)">Edit</span>
+            </button>
+            <p>{{category.product_cat_desc}}</p>            
+            <button type="button" class="btn btn-outline-primary btn-sm float-right" (click)="addSubCategoryModalOpen(category)">Add New Sub Category</button>
+            <div class="clearfix mb-4"></div>
+
+            <div *ngFor="let subCat of subCategoryList">
+              <accordion-group [heading]="subCat.sub_prod_cat_name" *ngIf="subCat.ProductCategories_product_cat_id === category.product_cat_id">
+                <button type="button" class="btn btn-outline-primary btn-sm float-right" (click)="catSpectAttrModalOpen(subCat)">Add Category Specific Attributes</button>
+                <div class="clearfix mb-4"></div>
+                
+                <ul class="list-group">
+                  <ng-container *ngFor="let catSpec of catSpecAttrsList">
+                    <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="catSpec.SubProductCategories_sub_prod_cat_id === subCat.sub_prod_cat_id">
+                      {{catSpec.cat_spec_attr_metas}}                
+                    </li>
+                  </ng-container>                  
+                </ul>
+
+              </accordion-group>
+            </div>            
+          </accordion-group>
+        </accordion>
+      </div>
+
+      <div class="col-md-6">
+        <div class="data-setup-title-holder">
+          <h3 class="data-setup-title">Units</h3>
+          <button type="button" class="btn btn-outline-primary btn-sm">Add New Unit</button>
+        </div> 
+        <accordion>
+          <accordion-group heading="Units">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Attribue</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </accordion-group>
+        </accordion>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #newCategoryModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-events-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Add New Category</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="newCategoryModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" [ng2-loading]="isLoadingCatForm">
+        <form #catForm="ngForm" (ngSubmit)="addNewCategory(catForm)" ngNativeValidate>
+          <div class="form-group">
+            <label>Category Name</label>
+            <input type="text" class="form-control" name="product_cat_name"  [(ngModel)]="categoryObj.product_cat_name" required>
+          </div>
+          <div class="form-group">
+            <label>Category Description</label>
+            <textarea name="product_cat_desc" class="form-control" rows="2" [(ngModel)]="categoryObj.product_cat_desc"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Category Image</label>
+            <div class="cat-icon-holder">
+              <div class="cat-icon" *ngFor="let catIcon of catIcons; let i = index">
+                <input type="radio" name="catIcon" [(ngModel)]="categoryObj.product_cat_img" [value]="catIcon">
+                <img src="{{iconPath}}/{{catIcon}}"/>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #newSubCategoryModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-events-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Add New Sub Category</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="newSubCategoryModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" [ng2-loading]="isLoadingSubCategory">
+        <form #subCatForm="ngForm" (ngSubmit)="addNewSubCategory(subCatForm)" ngNativeValidate>
+          <div class="form-group">
+            <label>Sub Category Name</label>
+            <input type="text" class="form-control" name="sub_prod_cat_name"  [(ngModel)]="subCategoryObj.sub_prod_cat_name" required>
+          </div>
+          <div class="form-group">
+            <label>Sub Category Description</label>
+            <textarea name="sub_prod_cat_desc" class="form-control" rows="2" [(ngModel)]="subCategoryObj.sub_prod_cat_desc"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #newCatSpecAttrModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-events-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Add New Category Specific Attribute</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="newCatSpecAttrModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" [ng2-loading]="isLoadingCatSpecAttr" [ng2-loading]="isLoadingCatSpecAttr">
+        <form #catSpecAttr="ngForm" (ngSubmit)="addCatSpecAttr(catSpecAttr)" ngNativeValidate>
+          <div class="form-group">
+            <label>Attribute Name</label>
+            <input type="text" class="form-control" name="cat_spec_name"  [(ngModel)]="catSpecAttrObj.cat_spec_name" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

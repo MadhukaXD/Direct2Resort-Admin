@@ -1,0 +1,128 @@
+<div class="page-holder" [ng2-loading]="isLoading">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Product Series Manager</h2>
+        </div>
+    
+        <div class="col-md-6 text-right">
+         
+        </div>
+      </div>
+
+      <div class="header-action-bar">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="filter-btns-holder">
+              <div class="filter-label">
+                Product Series Status:
+              </div>
+              <div class="filter-btn" (click)="filterUserist('all')" [ngClass]="{'selected': selectedFilter === 'all'}">
+                All
+              </div>
+              <div class="filter-btn" (click)="filterUserist('Approved')" [ngClass]="{'selected': selectedFilter === 'Approved'}">
+                Approved
+              </div>
+              <div class="filter-btn" (click)="filterUserist('Pending')" [ngClass]="{'selected': selectedFilter === 'Pending'}">
+                Approval Pending
+              </div>
+              <div class="filter-btn" (click)="filterUserist('Rejected')" [ngClass]="{'selected': selectedFilter === 'Rejected'}">
+                Rejected
+              </div>            
+              <div class="filter-btn" (click)="filterUserist('Deleted')" [ngClass]="{'selected': selectedFilter === 'Deleted'}">
+                Deleted
+              </div>                         
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+  </div>
+
+  <div class="page-content">
+    <table class="table table-ivys" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Series ID</th>
+        <th scope="col">Company</th>
+        <th scope="col">Series Name</th>
+        <th scope="col">Category</th>
+        <th scope="col">Created On</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let product of productSeriesList">
+        <th></th>
+        <th scope="row">{{product.product_series_ref_id}}</th>
+        <td>{{product.company_name}}</td>
+        <td>{{product.product_series_name}}</td>
+        <td>{{product.product_cat_name}}</td>
+        <td>
+          {{product.created_date | date: 'short'}}
+          <br>
+          <small *ngIf="product.updated_date">Last Updated On {{product.updated_date | date: 'short'}}</small>
+        </td>
+        <td>
+          <span class="badge badge-danger" *ngIf="product.admin_approval === 'Rejected' && product.deleted === 0">Rejected</span>
+          <span class="badge badge-success" *ngIf="product.admin_approval === 'Approved' && product.deleted === 0">Approved</span>
+          <span class="badge badge-warning" *ngIf="product.admin_approval === 'Pending' && product.deleted === 0">Pending Approval</span>
+          <span class="badge badge-danger" *ngIf="product.deleted === 1">Deleted</span> 
+        </td>
+        <td>
+          <button type="button" tooltip="Reject" class="btn btn-light btn-sm text-danger btn-sm" *ngIf="product.admin_approval === 'Approved' || product.admin_approval === 'Pending' && product.deleted === 0" (click)="rejectSeries(product);">
+            <i class="fas fa-ban"></i>
+          </button>
+          <button type="button" tooltip="Approve" class="btn btn-light btn-sm text-success btn-sm" *ngIf="product.admin_approval === 'Rejected' || product.admin_approval === 'Pending' && product.deleted === 0" (click)="approveSeries(product);">
+            <i class="fas fa-check-circle"></i>
+          </button>
+          <button type="button" tooltip="View Product List" class="btn btn-light btn-sm btn-sm" (click)="openProductListModal(product)">
+            <i class="fas fa-list"></i>
+          </button>          
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #seriesProductList="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-events-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left"><span *ngIf="selectedProduct">{{selectedProduct.product_series_name}}</span> Product List</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="seriesProductList.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="selectedProduct" class="series-banner" [ngStyle]="getProductSeriesBannerImg(selectedProduct.product_series_banner)"></div>
+        <p class="mt-1">{{selectedProduct?.product_series_desc}}</p>
+        <table class="table" *ngIf="selectedProduct">
+          <tbody>
+            <tr *ngFor="let sProduct of selectedProduct.prodDetails">
+              <td>
+                <div class="ps-product-img" [ngStyle]="getProductImg(sProduct.product_imgs)"></div>
+                {{sProduct.product_name}}
+                <br/>
+                <small>{{sProduct.product_item_code}}</small>
+              </td>
+              <td>
+                <span class="badge badge-success" *ngIf="sProduct.admin_approved === 1">Approved</span>
+                <span class="badge badge-warning" *ngIf="sProduct.admin_approved === 0">Pending Approval</span>
+              </td>
+              <td>
+                <a tooltip="View Product"  routerLink="/page/product/{{sProduct.product_url}}" class="btn btn-light btn-sm btn-sm" target="_blank" rel="bookmark">
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

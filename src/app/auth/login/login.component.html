@@ -1,0 +1,29 @@
+<div class="row no-gutters login-container">
+  <div class="col-md-6">
+   <div class="left-side">
+     <div class="logo-holder">
+      <img src="../../../assets/images/logo.png" alt="login-logo"> 
+     </div>
+
+     <form (ngSubmit)="login()">
+        <h3>Login</h3>
+        <div class="form-group ivys-input-style">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" [(ngModel)]="userData.email" name="email">
+        </div>
+        <div class="form-group ivys-input-style">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" [(ngModel)]="userData.password" name="password">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
+      </form>
+   </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="right-side">
+      <p>It's never been so easy to match <b>perfect products</b> together </p>
+      <img src="../../../assets/images/login-side-image.png" alt="login-image"> 
+    </div>     
+  </div>
+</div>

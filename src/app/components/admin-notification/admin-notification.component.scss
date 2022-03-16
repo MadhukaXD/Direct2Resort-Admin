@@ -1,0 +1,60 @@
+.notification-menu-btn {
+    position: absolute;
+    z-index: 10;
+    right: 20px;
+    top: 10px;
+    background-color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    -moz-box-shadow: 0px 1px 5px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0px 1px 5px rgba(0,0,0,0.5);
+    box-shadow: 0px 1px 5px rgba(0,0,0,0.5);
+
+    .new-count {
+        position: absolute;
+        background-color: #d82626;
+        color: #ffffff;
+        font-size: 10px;
+        padding: 3px 3px;
+        line-height: 1;
+        top: 0;
+        left: 0;
+        border-radius: 4px;
+    }
+}
+
+:host ::ng-deep {
+    .notifications-drop {
+        .popover-body {
+            padding: 0 !important;
+        }
+    }
+
+    .notifications-drop {
+        min-width: 210px;
+
+        .popover-content {
+            max-height: 346px;
+            overflow: auto;
+            
+            .list-group {
+                .list-group-item {
+                    cursor: pointer;
+
+                    &.new {
+                        background-color: #efefef;
+                    }
+
+                    h5 {
+                        font-size: 12px;
+                    }
+
+                    p {
+                        font-size: 11px;
+                    }
+                }
+            }
+        }
+    }
+}

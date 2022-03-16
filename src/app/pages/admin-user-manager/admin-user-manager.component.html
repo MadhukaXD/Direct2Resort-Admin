@@ -1,0 +1,100 @@
+<div class="page-holder" [ng2-loading]="isLoading">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Admin Users</h2>
+          <br>
+          <button type="button" class="btn btn-primary btn-sm" (click)="addNewAdminModal()">Add New Admin</button>
+        </div>
+    
+        <div class="col-md-6 text-right">
+          
+        </div>
+      </div>
+    </div>    
+  </div>
+
+  <div class="page-content">
+    <table class="table table-ivys" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Contact Number</th>
+        <!-- <th scope="col">Status</th>
+        <th scope="col">Action</th> -->
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let admin of adminList; let i = index;">
+        <th scope="row">{{admin.admin_user_id}}</th>
+        <td>{{admin.admin_fName}} {{admin.admin_lName}}</td>
+        <td>{{admin.admin_email}}</td>
+        <td>{{admin.admin_contact_number}}</td>
+        <!-- <td>
+          <span class="badge badge-success">Active</span>
+        </td>
+        <td>
+          <button type="button" class="btn btn-outline-warning btn-sm">Deactivate</button>
+        </td> -->
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" bsModal #adminRegForm="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-events-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Add New Admin User</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="adminRegForm.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" [ng2-loading]="isLoadingForm">
+        <form #f="ngForm" (ngSubmit)="adminReg(f)" ngNativeValidate>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" class="form-control" name="fName"  [(ngModel)]="adminUser.fName" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" class="form-control" name="lName" [(ngModel)]="adminUser.lName" required>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" class="form-control" name="email"  [(ngModel)]="adminUser.email" required>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" name="password" [(ngModel)]="adminUser.password" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" class="form-control" name="confirmPw" ngModel required #confirmPw="ngModel">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Contact Number</label>
+            <input type="text" class="form-control" name="phone" [(ngModel)]="adminUser.phone" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

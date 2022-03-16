@@ -1,0 +1,104 @@
+<div class="page-holder" [ng2-loading]="isLoading">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Manage Quotes</h2>
+        </div>
+    
+        <div class="col-md-6 text-right">
+          
+        </div>
+      </div>
+
+      <div class="header-action-bar">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="filter-btns-holder">
+              <div class="filter-label">
+                Quote Status:
+              </div>
+              <div class="filter-btn" (click)="filterUserist('all')" [ngClass]="{'selected': selectedFilter === 'all'}">
+                All
+              </div>
+              <div class="filter-btn" (click)="filterUserist('Pending')" [ngClass]="{'selected': selectedFilter === 'Pending'}">
+                Pending
+              </div>
+              <div class="filter-btn" (click)="filterUserist('Aproved')" [ngClass]="{'selected': selectedFilter === 'Aproved'}">
+                Buyer Approved
+              </div>  
+              <div class="filter-btn" (click)="filterUserist('readyToShip')" [ngClass]="{'selected': selectedFilter === 'readyToShip'}">
+                Ready to Ship
+              </div>
+              <div class="filter-btn" (click)="filterUserist('submitedToLp')" [ngClass]="{'selected': selectedFilter === 'submitedToLp'}">
+                Submitted to LP
+              </div>             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+  </div>
+
+  <div class="page-content">
+    <table class="table table-ivys" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Quote ID</th>
+        <th scope="col">Buyer</th>
+        <th scope="col">Seller</th>
+        <th scope="col">Created Date</th>
+        <th scope="col">Last Updated</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let quote of quoteListSeries">
+        <th scope="row"></th>
+        <td>{{quote.quote_uuid}}</td>
+        <td>{{quote.buyer_company_name}}</td>
+        <td>{{quote.seller_company_name}}</td>
+        <td>{{quote.created_date | date: 'short'}}</td>
+        <td>
+          <ng-container *ngIf="quote.last_updated_date">{{quote.last_updated_date | date: 'short'}}</ng-container>
+          <ng-container *ngIf="!quote.last_updated_date">-</ng-container>
+        </td>
+        <td>
+          <span class="badge badge-warning" *ngIf="quote.final_client_aproval === 'Pending' && quote.seller_close_quote === 0">
+            Pending
+          </span>
+          <span class="badge badge-success" *ngIf="quote.final_client_aproval === 'Aproved' && quote.ready_to_ship === 0 && quote.submited_to_freight === 0 && quote.buyer_apporved_frieght_method === null">
+            Buyer Approved
+          </span>
+          <span class="badge badge-primary" *ngIf="quote.final_client_aproval === 'Aproved' && quote.ready_to_ship === 1 && quote.submited_to_freight === 0">
+            Ready to Ship
+          </span>
+          <span class="badge badge-info" *ngIf="quote.final_client_aproval === 'Aproved' && quote.submited_to_freight === 1  && quote.buyer_apporved_frieght_method === null">
+            Submitted to LP
+          </span>
+
+          <span class="badge badge-danger" *ngIf="quote.seller_close_quote === 1">
+            Closed By Seller
+          </span> 
+
+          <span class="badge badge-danger" *ngIf="quote.final_client_aproval === 'Close'">
+            Closed By Buyer
+          </span>
+
+          <span class="badge badge-success" *ngIf="quote.buyer_apporved_frieght_method === 'Air' || quote.buyer_apporved_frieght_method === 'Sea'">
+            Buyer Confirmed
+          </span>
+          
+        </td>
+        <td>
+          <button type="button" tooltip="Manage Quote" class="btn btn-light btn-sm" [routerLink]="['/page/manage-rfq', quote.quote_uuid]">
+            <i class="fas fa-wrench"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

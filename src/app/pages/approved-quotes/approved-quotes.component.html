@@ -1,0 +1,47 @@
+<div class="page-holder" [ng2-loading]="isLoading">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Approved Quotes</h2>
+        </div>
+    
+        <div class="col-md-6 text-right">
+          
+        </div>
+      </div>
+    </div>    
+  </div>
+
+  <div class="page-content">
+    <table class="table table-ivys" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Quote ID</th>
+        <th scope="col">Buyer</th>
+        <th scope="col">Seller</th>
+        <th scope="col">Created Date</th>
+        <th scope="col">Last Updated</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let quote of quoteList">
+        <th scope="row"></th>
+        <td>{{quote.quote_id}}</td>
+        <td>{{quote.gen_p_full_name}}</td>
+        <td>{{quote.company_name}}</td>
+        <td>{{quote.created_date | date: 'M/d/yy hh:mm a'}}</td>
+        <td>
+          <ng-container *ngIf="quote.last_updated_date">{{quote.last_updated_date | date: 'M/d/yy hh:mm a'}}</ng-container>
+          <ng-container *ngIf="!quote.last_updated_date">-</ng-container>
+        </td>
+        <td>
+          <button type="button" class="btn btn-outline-warning btn-sm" [routerLink]="['/page/manage-quote', quote.quote_id]">Manage</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

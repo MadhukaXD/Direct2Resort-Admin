@@ -1,0 +1,103 @@
+.page-holder {
+    .page-header {
+        background-color: #c7cfd3;
+        height: 155px;
+
+        h2 {
+            color: #3a5a68;
+            margin: 0;
+            font-size: 22px;
+            font-weight: 400;
+        }
+  
+        .btn {
+            color: #707a80;
+            font-size: 22px;
+        }
+
+        .page-header-inner {
+            padding: 40px 40px 10px 40px;
+
+            .header-action-bar {
+                padding-top: 18px;
+
+                .filter-btns-holder {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    
+                    .filter-label {
+                        font-size: 12px;
+                        color: #687377;
+                        font-weight: 500;
+                        margin-right: 15px;
+                    }
+
+                    .filter-btn {
+                        border: solid 1px #8f9fa6;
+                        border-radius: 10px;
+                        height: 32px;
+                        font-size: 12px;
+                        display: flex;
+                        flex-direction: row;
+                        padding: 6px 10px;
+                        background-color: #ffffff;
+                        opacity: 0.5;
+                        margin-right: 10px;
+                        position: relative;
+                        cursor: pointer;
+
+                        &.selected {
+                            border-color: #db0038;
+                            opacity: 1;
+                            &:before {
+                                content: "";
+                                position: absolute;
+                                right: -4px;
+                                top: -4px;
+                                background-color: #db0038;
+                                width: 10px;
+                                height: 11px;
+                                border-radius: 50%;
+                            }
+                        }
+                        .divider {
+                            margin: 0 8px;
+                            width: 1px;
+                            background-color: #bdccd4;
+                        }
+                    }
+                }
+            }
+        }
+    } 
+    
+    .page-actions {
+        margin-top: 20px;
+        
+        .ivys-btn-icon-left {
+            width: 100%;
+        }
+    }
+
+    .page-content {
+        padding: 20px 40px 10px 40px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .page-holder {
+        .page-header {
+            height: auto !important;
+        }
+
+        .filter-btns-holder {
+            flex-wrap: wrap;
+    
+            .filter-btn {
+                margin-bottom: 10px;
+            }
+        }
+    }
+    
+}

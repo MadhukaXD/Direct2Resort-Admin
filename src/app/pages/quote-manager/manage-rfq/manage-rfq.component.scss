@@ -1,0 +1,394 @@
+.page-holder {
+    height: 100%;
+
+    .page-header {
+        background-color: #c7cfd3;
+        height: 155px;
+
+        h2 {
+            color: #77888f;
+            margin: 0;
+            font-size: 22px;
+            font-weight: 400;
+
+            span {
+                color: #3a5a68;
+            }
+
+            i {
+                cursor: pointer;
+            }
+        }
+  
+        .page-header-inner {
+            padding: 40px 40px 10px 40px;
+
+            .header-action-bar {
+                padding-top: 8px;
+
+                .header-quote-info-holder {
+                    display: flex;
+                    flex-direction: row;
+
+                    .quote-info-item {
+                        margin-right: 40px;
+                        display: flex;
+                        flex-direction: column;
+
+                        small {
+                            text-transform: uppercase;
+                            font-weight: bold;
+                            font-size: 10px;
+                            color: #7f8e94;
+                            margin-bottom: 6px;
+                        }
+
+                        h2 {
+                            color: #3a5a68;
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
+    } 
+    
+    .page-actions {
+        margin-top: 20px;
+        
+        .ivys-btn-icon-left {
+            width: 100%;
+        }
+    }
+
+    .page-content {
+        padding: 20px 40px 10px 40px;
+        height: calc(100% - 155px);
+
+        .quote-managment-panel {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+
+            .qma-section {
+                height: 100%;
+                width: 50%;
+                padding-right: 20px;
+                &:nth-child(1) {
+                    border-right: 1px solid #c7cfd3;
+                }
+                &:nth-child(2) {
+                    padding-left: 20px;
+                }
+                
+                .qmas-header {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+
+                    h4 {
+                        font-size: 14px;
+                        color: #519dd9;
+                    }
+
+                    .qmas-btn {
+                        background-color: transparent;
+                        border: none;
+                        color: #c7cfd3;
+                        font-size: 12px;
+                        font-weight: bold;
+                    }
+                }
+
+                .qmas-body {
+                    padding-top: 10px;
+                    height: calc(100% - 175px);
+
+                    .qmas-quote-product-item {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+
+                        .qpi-img {
+                            width: 42px;
+                            height: 42px;
+                            border-radius: 10px;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            background-position: center center;
+                        }
+
+                        .qpi-name {
+                            font-size: 14px;
+                            color: #77888f;
+                            font-weight: 500;
+                            margin-right: 15px;
+                        }
+
+                        .qpi-qty {
+                            font-size: 14px;
+                            color: #3a5a68;
+                            text-align: right;
+
+                            small {
+                                color: #77888f;
+                            }
+                        }
+
+                        .ivys-input-style {
+                            margin: 0;
+
+                            .qpi-price {
+                                height: 32px;
+                                border: 1px solid #c7cfd3;
+                                border-radius: 10px;
+                                font-size: 14px;
+                                max-width: 150px;
+                            }
+                        }
+                        
+                        table {
+                            width: 100%;
+
+                            thead {
+                                td {
+                                    font-size: 10px;
+                                    text-align: right;
+                                    padding-right: 10px;
+                                    font-weight: 500;
+                                    text-transform: uppercase;
+                                    color: #8f9fa6;
+                                    padding-bottom: 12px;
+
+                                    &:first-child {
+                                        text-align: left !important;
+                                    }
+                                }
+                            }
+
+                            tbody {
+                                td {
+                                    padding-right: 10px;
+                                }
+                            }
+                        }
+                    }
+
+                    .markup-tbl {
+                        width: 100%;
+                        border-top: 1px solid #e2e2e2;
+                        margin-top: 10px;
+
+                        td {
+                            font-size: 14px;
+                            color: #77888f;
+                            padding: 8px 10px 0 0;
+                        }
+                    }
+                }
+
+                .qmas-footer {
+                    border-top: 1px solid #c7cfd3;
+                    padding-top: 20px;
+
+                    label {
+                        font-size: 14px;
+                    }
+
+                    .quote-msg-send-btn {
+                        height: 32px;
+                        background-color: #519dd9;
+                        border: none;
+                        border-radius: 10px;
+                        color: #ffffff;
+                        padding: 4px 15px;
+                        font-size: 12px;
+
+                        &:disabled {
+                            opacity: 0.5;
+                        }
+                    }
+                }
+
+                .qmas-msg-list-holder {
+                    margin-top: 24px;
+                    height: calc(100% - 50px);
+                    overflow: auto;
+                    padding-right: 10px;
+                    padding-top: 20px;
+                    
+                    .qmas-msg-item {
+                        margin-bottom: 40px;
+                        
+                        &.my-msg {
+                            width: 75%;
+                            margin-left: 25%;
+
+                            .qmas-msg-body {
+                                background-color: #53bac1;
+                                border-top-left-radius: 10px;
+                                border-bottom-left-radius: 10px;
+                                border-bottom-right-radius: 10px; 
+                            }
+
+                            .msg-date-time {
+                                right: 0;
+                            }
+                        }
+                        &.client-msg {
+                            width: 75%;
+
+                            .qmas-msg-body {
+                                background-color: #8f9fa6;
+                                border-top-right-radius: 10px;
+                                border-bottom-right-radius: 10px;
+                                border-bottom-left-radius: 10px;
+                            }
+
+                            .msg-date-time {
+                                left: 0;
+                            }
+                        }
+
+                        &.admin-msg {
+                            .qmas-msg-body {
+                                background-color: #c15353;
+                                border-top-right-radius: 10px;
+                                border-bottom-right-radius: 10px;
+                                border-bottom-left-radius: 10px;
+                            }
+
+                            .msg-date-time {
+                                left: 0;
+                            }
+                        }
+                        .qmas-msg-body {
+                            padding: 12px 20px;
+                            position: relative;
+        
+                            h5 {
+                                color: #ffffff;
+                                text-transform: uppercase;
+                                font-size: 10px;
+                                opacity: 0.5;
+                                margin-bottom: 4px;
+                            }
+        
+                            p {
+                                color: #ffffff;
+                                font-size: 12px;
+                                margin: 0;
+                            }
+        
+                            .msg-date-time {
+                                font-size: 10px;
+                                color: #b4c3cb;
+                                position: absolute;
+                                top: -16px;
+                            }
+
+                            .msg-approved-icon {
+                                font-size: 12px;
+                                color: #236f25;
+                                font-weight: 500;
+                                position: absolute;
+                                right: 12px;
+                                top: 8px;
+                            }
+                            
+                            .quote-id {
+                                font-size: 14px;
+                                font-weight: 500;
+                                color: #575757;
+                            }
+
+                            .alert {
+                                font-size: 12px;
+                                padding: 6px 10px;
+                            }
+                        }
+
+                        .seller-quote-template {
+                            table {
+                                width: 100%;
+                                margin-bottom: 20px;
+                                margin-top: 15px;
+
+                                thead {
+                                    td {
+                                        font-size: 10px;
+                                        font-weight: 500;
+                                        text-transform: uppercase;
+                                        color: #ffffff;
+                                        opacity: 0.6;
+                                        text-align: right;
+                                        padding-right: 10px;
+                                        padding-bottom: 5px;
+
+                                        &:nth-child(1) {
+                                            text-align: left !important; 
+                                        }
+                                    }
+                                }
+                                tbody {
+                                        td {
+                                            font-size: 12px;
+                                            font-weight: 500;
+                                            color: #ffffff;
+                                            text-align: right;
+                                            padding-right: 10px;
+                                            padding-bottom: 5px;
+                                            border-bottom: 1px solid #ffffff;
+
+                                            &:nth-child(1) {
+                                                div {
+                                                    width: 70px;
+                                                    text-align: left !important;
+                                                    font-weight: 500;
+                                                    white-space: nowrap;
+                                                    overflow: hidden;
+                                                    text-overflow: ellipsis;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    tfoot {
+                                        tr {
+                                            &:nth-child(1), &:nth-child(2), &:nth-child(3) {
+                                                td {
+                                                    font-weight: 400;
+                                                }
+                                            }                                                 
+                                            &:nth-child(4), &:nth-child(5) {
+                                                td {
+                                                    padding-bottom: 8px;
+                                                }                                                        
+                                            }
+                                            &:nth-child(5), &:nth-child(6) {
+                                                td {
+                                                    border-top: 1px solid #ffffff;
+                                                }                                                        
+                                            }
+
+                                            td {
+                                                font-size: 12px;
+                                                font-weight: 500;
+                                                color: #ffffff;
+                                                text-align: right;
+                                                padding-right: 10px;
+                                                padding-top: 5px;                                                   
+
+                                                &:nth-child(1) {
+                                                    text-align: left !important;
+                                                }
+                                            }
+                                        }                                                
+                                    }
+                            }
+                        }
+                    }
+                }                
+            }
+        }
+    }
+}

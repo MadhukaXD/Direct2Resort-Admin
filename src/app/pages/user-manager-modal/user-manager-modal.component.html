@@ -1,0 +1,48 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">User Information</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <table class="table">
+    <tbody>
+      <tr>
+        <th>Name</th>
+        <td>{{user?.gen_p_full_name}}</td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td>{{user?.gen_p_email}}</td>
+      </tr>
+      <tr>
+        <th>Admin Aproval</th>
+        <td>{{user?.gen_p_ivys_admin_aproval}}</td>
+      </tr>
+      <tr>
+        <th>Company Name</th>
+        <td>{{company?.company_name}}</td>
+      </tr>
+      <tr>
+        <th>Company VAT/GST Number</th>
+        <td>{{company?.company_vat_gst}}</td>
+      </tr>
+      <tr>
+        <th>Company Telephone</th>
+        <td>{{company?.company_tp}}</td>
+      </tr>
+      <tr>
+        <th>Company Address</th>
+        <td>{{company?.company_street_address}} {{company?.company_state}} {{company?.company_zip_code}}</td>
+      </tr>
+      <tr>
+        <th>Company Country</th>
+        <td>{{company?.company_country}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="company-ci-doc" *ngIf="company?.company_ci_doc">
+    <img src="{{company.company_ci_doc}}"/>
+  </div>
+</div>

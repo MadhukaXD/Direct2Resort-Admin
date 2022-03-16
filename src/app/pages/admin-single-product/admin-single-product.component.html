@@ -1,0 +1,114 @@
+<div class="container-fluid" [ng2-loading]="isLoading">
+    <div class="row">
+        <div class="col-md-12 text-right admin-single-product-top-bar">          
+            <button type="button" class="btn btn-light btn-sm mt-2 mr-2" (click)="goBack()">
+              <i class="fas fa-arrow-left" (click)="goBack()"></i> Go Back
+            </button>
+            <button type="button" tooltip="Unpublish" class="btn btn-danger btn-sm mt-2 mr-5" *ngIf="product.productInfo.admin_approved === 1" (click)="approveRejectProduct(product.productInfo, 0);">
+                <i class="fas fa-ban"></i>
+            </button>
+            <button type="button" tooltip="Publish Product" class="btn btn-success btn-sm btn-sm mt-2 mr-5" *ngIf="product.productInfo.admin_approved === 0" (click)="approveRejectProduct(product.productInfo, 1);">
+                <i class="fas fa-check-circle"></i>
+            </button>
+        </div>
+        <div class="col-md-12">
+            <div class="single-product-info">
+                <div class="sp-title-section" *ngIf="product?.productInfo?.product_name">
+                    <div class="title-wrap">
+                      <div class="sp-brand-logo" *ngIf="product?.productInfo?.product_logo !== null" [ngStyle]="getProductImg(product.productInfo.product_logo)"></div>
+                      <div class="spt-holder">
+                          <h1>{{product.productInfo.product_name}}</h1>
+                      </div>
+                    </div>                    
+                </div>
+                <div class="sp-imgs-desc-holder">
+                    <div class="sp-img-gallery" *ngIf="productImgs.length">
+                        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+                            <div ngxSlickItem *ngFor="let slide of productImgs" class="slide" [ngStyle]="{'background-image': 'url('+slide.img+')'}">
+                            </div>
+                        </ngx-slick-carousel>
+    
+                        <ngx-slick-carousel class="carousel-nav" #slickModal="slick-carousel" [config]="slideConfigNav">
+                            <div ngxSlickItem *ngFor="let slide of productImgs" class="slide" [ngStyle]="{'background-image': 'url('+slide.img+')'}">
+                            </div>
+                        </ngx-slick-carousel>
+                    </div>
+    
+                    <div class="sp-description" [innerHTML]="product.productInfo.product_desc">
+                        
+                    </div>
+                </div>  
+                
+                <div class="sp-right-sidebar">
+                    <div class="spr-item">
+                      <span class="badge badge-pill badge-warning" *ngIf="product.productInfo.admin_approved === 0">Aproval Pending</span>
+                      <span class="badge badge-pill badge-success" *ngIf="product.productInfo.admin_approved === 1">Published</span>
+                    </div>                
+                    <div class="spr-item" *ngIf="product?.productInfo?.out_of_stock === 1">
+                      <span class="badge badge-warning">Out of Stock</span>
+                    </div> 
+  
+                    <div class="spr-item" *ngIf="product?.productInfo?.country">
+                      <h5>Country of Origin</h5>
+                      <div class="product-country">
+                          <div class="fflag fflag-{{product?.productInfo?.country}} ff-round ff-lg"></div> 
+                          <span>{{productCountry}}</span>
+                      </div>                        
+                    </div>
+  
+                    <div class="spr-item" *ngIf="product?.productInfo?.product_item_code">
+                      <h5>Item Code</h5>
+                      <h6 class="fob-price">{{product?.productInfo?.product_item_code}}</h6>                       
+                    </div>
+  
+                    <div class="spr-item" *ngIf="product?.productInfo?.min_order_qty">
+                      <h5>Minimum Order Quantity</h5>
+                      <h6 class="fob-price">{{product.productInfo.min_order_qty}} <small>{{product?.productInfo?.product_unit}}</small></h6>                       
+                    </div>
+  
+                    <div class="spr-item" *ngIf="product?.productInfo?.offer_samples">
+                      <h5>Offers Samples on Request</h5>
+                      <h6 class="fob-price" *ngIf="product?.productInfo?.offer_samples === 1">
+                        Yes
+                      </h6>
+                      <h6 class="fob-price" *ngIf="product?.productInfo?.offer_samples === 0">
+                        No
+                      </h6>                      
+                    </div>
+  
+                    <div class="spr-item" *ngIf="product?.productInfo?.product_price">
+                        <h5>FOB Reference Price</h5>
+                        <h6 class="fob-price">{{product.productInfo.product_price | currency}}<small>/{{product.productInfo.product_unit}}</small></h6>
+                    </div>
+                    
+                                      
+                </div>
+            </div>
+  
+            <div class="single-product-more-info">
+                <div>
+                    <tabset>
+                      <tab heading="Product Description" *ngIf="product.productInfo.product_spec_desc !== ''">
+                        <div class="custom-tab-inner-content" [innerHTML]="product.productInfo.product_spec_desc"></div>
+                      </tab>
+                      <tab heading="Product Overview" *ngIf="product.productSpecAttr.length">
+                          <div class="product-quick-details">
+                              <h4>Quick Details</h4>
+                              <div class="pqd-list" *ngIf="product.productSpecAttr.length">
+                                  <div class="pqd-item" *ngFor="let pAttr of product.productSpecAttr">
+                                    <div class="quick-detail-key">{{pAttr.attr_key}}</div>
+                                    <div class="quick-detail-value">{{pAttr.attr_value}}</div>
+                                  </div>                            
+                              </div>
+                          </div>
+                      </tab>                    
+                      <tab [heading]="cTabs.product_cus_tab_name" *ngFor="let cTabs of product.customTabs">
+                        <div class="custom-tab-inner-content" [innerHTML]="cTabs.product_cus_tab_desc"></div>
+                      </tab>
+                    </tabset>
+                  </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  
